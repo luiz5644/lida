@@ -1,0 +1,31 @@
+﻿Listagem de caminhos de pasta para o volume Acer
+O n·mero de sÚrie do volume Ú F651-612B
+C:\USERS\LUISC\DESKTOP\LIDA\GESTAO-REBANHO
++---publico
+ª   +---paginas
++---src
+    +---aplicacao
+    ª   +---casos-de-uso
+    ª       +---alimento
+    ª       +---animal
+    ª       +---controle-carencia
+    ª       +---manejo
+    ª       +---pesagem
+    ª       +---produto-sanitario
+    ª       +---propriedade
+    ª       +---registro-alimentar
+    ª       +---usuario
+    +---apresentacao
+    ª   +---componentes
+    ª   +---controladores
+    ª   +---estilos
+    ª   ª   +---paginas
+    ª   +---visoes
+    +---dominio
+    ª   +---entidades
+    ª   +---enumeracoes
+    ª   +---repositorios
+    +---infraestrutura
+    ª   +---armazenamento
+    ª   +---repositorios
+    +---principal
