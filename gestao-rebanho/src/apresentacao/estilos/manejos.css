@@ -1,0 +1,88 @@
+/* ==========================================================================
+   Tela de Manejos (Lida - Figma Fidelity)
+   ========================================================================== */
+
+/* Grid 2x3 de Manejos */
+.grade-manejos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+}
+
+.manejo-opcao {
+  background: var(--cartao, #FFFFFF);
+  border: 1px solid var(--borda, #E5E7EB);
+  border-radius: var(--raio-cartao, 12px);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  cursor: pointer;
+  height: 98px;
+  min-height: 98px;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, transform 0.1s ease;
+}
+
+.manejo-opcao:hover {
+  border-color: var(--verde-principal, #258C4E);
+}
+
+.manejo-opcao:active {
+  transform: scale(0.98);
+}
+
+.manejo-opcao-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.manejo-opcao-chevron {
+  color: var(--placeholder, #9CA3AF);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.manejo-opcao-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: auto;
+}
+
+.manejo-rotulo {
+  font-size: var(--tam-corpo, 12px);
+  font-weight: 600;
+  color: var(--texto, #1F2D26);
+  line-height: 1.25;
+}
+
+.manejo-descricao {
+  font-size: var(--tam-legenda, 10px);
+  color: var(--texto-suave, #6B7280);
+  line-height: 1.2;
+}
+
+/* Aviso e Rodapés específicos */
+.manejo-rodape-hub {
+  text-align: center;
+  font-size: var(--tam-legenda, 10px);
+  color: var(--texto-suave, #6B7280);
+  margin-top: 8px;
+}
+
+.nascimento-cadastro-aux {
+  text-align: center;
+  font-size: var(--tam-rotulo, 11px);
+  color: var(--texto-suave, #6B7280);
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+}

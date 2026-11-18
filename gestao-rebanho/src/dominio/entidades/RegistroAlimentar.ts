@@ -1,96 +1,52 @@
 import { ErroDeDominio } from "../erros/ErroDeDominio.js";
+import { ehDataFutura, ehDataIsoValida } from "../utilitarios/datas.js";
 
 export interface RegistroAlimentarProps {
   id: string;
-  animalId: string;
   alimentoId: string;
-  quantidade: number;
+  animalId?: string;
   data: string;
+  quantidade: number;
 }
 
 export class RegistroAlimentar {
   readonly id: string;
-  animalId: string;
-  alimentoId: string;
-  quantidade: number;
+  readonly alimentoId: string;
+  readonly animalId?: string;
   data: string;
+  quantidade: number;
 
   constructor(props: RegistroAlimentarProps) {
-    if (!props.animalId) {
-      throw new ErroDeDominio("O animal é obrigatório.");
-    }
     if (!props.alimentoId) {
-      throw new ErroDeDominio("O alimento é obrigatório.");
+      throw new ErroDeDominio("Selecione o alimento consumido.");
     }
-    RegistroAlimentar.validarQuantidade(props.quantidade);
-    RegistroAlimentar.validarData(props.data);
+    if (!ehDataIsoValida(props.data)) {
+      throw new ErroDeDominio("Data do consumo inválida.");
+    }
+    if (ehDataFutura(props.data)) {
+      throw new ErroDeDominio("A data do consumo não pode estar no futuro.");
+    }
+    if (!Number.isFinite(props.quantidade) || props.quantidade <= 0) {
+      throw new ErroDeDominio("A quantidade consumida deve ser maior que zero.");
+    }
     this.id = props.id;
-    this.animalId = props.animalId;
     this.alimentoId = props.alimentoId;
-    this.quantidade = props.quantidade;
+    this.animalId = props.animalId || undefined;
     this.data = props.data;
-  }
-
-  private static validarQuantidade(quantidade: number): void {
-    if (!Number.isFinite(quantidade) || quantidade <= 0) {
-      throw new ErroDeDominio("A quantidade deve ser maior que zero.");
-    }
-  }
-
-  private static validarData(data: string): void {
-    if (!data) {
-      throw new ErroDeDominio("A data do registro alimentar é obrigatória.");
-    }
-    const valor = new Date(`${data}T00:00:00`);
-    if (Number.isNaN(valor.getTime())) {
-      throw new ErroDeDominio("Data do registro alimentar inválida.");
-    }
-    const hoje = new Date();
-    hoje.setHours(0, 0, 0, 0);
-    if (valor.getTime() > hoje.getTime()) {
-      throw new ErroDeDominio("A data do registro alimentar não pode estar no futuro.");
-    }
-  }
-
-  atualizar(dados: {
-    animalId?: string;
-    alimentoId?: string;
-    quantidade?: number;
-    data?: string;
-  }): void {
-    if (dados.animalId !== undefined) {
-      if (!dados.animalId) {
-        throw new ErroDeDominio("O animal é obrigatório.");
-      }
-      this.animalId = dados.animalId;
-    }
-    if (dados.alimentoId !== undefined) {
-      if (!dados.alimentoId) {
-        throw new ErroDeDominio("O alimento é obrigatório.");
-      }
-      this.alimentoId = dados.alimentoId;
-    }
-    if (dados.quantidade !== undefined) {
-      RegistroAlimentar.validarQuantidade(dados.quantidade);
-      this.quantidade = dados.quantidade;
-    }
-    if (dados.data !== undefined) {
-      RegistroAlimentar.validarData(dados.data);
-      this.data = dados.data;
-    }
+    this.quantidade = props.quantidade;
   }
 
   paraJSON(): RegistroAlimentarProps {
     return {
       id: this.id,
-      animalId: this.animalId,
       alimentoId: this.alimentoId,
-      quantidade: this.quantidade,
+      animalId: this.animalId,
       data: this.data,
+      quantidade: this.quantidade,
     };
   }
 
-  static deJSON(json: RegistroAlimentarProps): RegistroAlimentar {
-    return new RegistroAlimentar(json);
+  static deJSON(props: RegistroAlimentarProps): RegistroAlimentar {
+    return new RegistroAlimentar(props);
   }
 }

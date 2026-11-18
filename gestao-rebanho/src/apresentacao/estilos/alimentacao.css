@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Tela de Alimentação (Lida - Figma Fidelity)
+   ========================================================================== */
+
+.alimentacao-secao-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.alimentos-cartao {
+  background: var(--cartao, #FFFFFF);
+  border: 1px solid var(--borda, #E5E7EB);
+  border-radius: var(--raio-cartao, 12px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.alimento-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--borda, #E5E7EB);
+}
+
+.alimento-item:last-child {
+  border-bottom: none;
+}
+
+.alimento-dados {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.alimento-nome {
+  font-size: var(--tam-rotulo, 11px);
+  font-weight: 600;
+  color: var(--texto, #1F2D26);
+}
+
+.alimento-disponivel {
+  font-size: var(--tam-legenda, 10px);
+  color: var(--texto-suave, #6B7280);
+}
+
+.alimento-nota {
+  font-size: var(--tam-legenda, 10px);
+  color: var(--texto-suave, #6B7280);
+  margin-top: -6px;
+}

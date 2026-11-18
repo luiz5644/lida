@@ -1,0 +1,242 @@
+/* ==========================================================================
+   Simulador de Celular & Estrutura (Lida - Figma Fidelity)
+   ========================================================================== */
+
+/* Palco: plano de fundo desktop */
+.palco {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--fundo-palco, #E9ECEF);
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* Moldura do smartphone (390 x 844 px com borda escura ~8px e raio ~36px) */
+.aparelho {
+  position: relative;
+  width: var(--aparelho-largura, 390px);
+  height: var(--aparelho-altura, 844px);
+  max-height: calc(100dvh - 32px);
+  border-radius: var(--raio-moldura, 36px);
+  border: 8px solid #202224;
+  background: var(--fundo, #F7F8FA);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18), 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Tela interna */
+.tela {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--fundo, #F7F8FA);
+}
+
+/* Cabeçalho do app: altura 48px, fundo branco, borda inferior 1px */
+.cabecalho-app {
+  flex-shrink: 0;
+  height: var(--altura-cabecalho, 48px);
+  background: #ffffff;
+  border-bottom: 1px solid var(--borda, #E5E7EB);
+  z-index: 10;
+}
+
+.cabecalho-app-conteudo {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.marca-app {
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  height: auto;
+}
+
+.marca-app-logo {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--verde-escuro, #0F3D1F);
+  letter-spacing: -0.03em;
+  font-family: var(--fonte);
+}
+
+.marca-app-logo svg {
+  width: 18px;
+  height: 18px;
+  color: var(--verde-principal, #258C4E);
+}
+
+.selo-prototipo {
+  font-size: var(--tam-legenda, 10px);
+  color: var(--texto-suave, #6B7280);
+  font-weight: 400;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.selo-prototipo-ponto {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--verde-principal, #258C4E);
+  display: inline-block;
+}
+
+/* Conteúdo rolável */
+.conteudo-app {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  background: var(--fundo, #F7F8FA);
+}
+
+.conteudo-app::-webkit-scrollbar {
+  display: none;
+}
+
+/* Barra inferior: altura 60px, fundo branco, borda superior 1px */
+.barra-navegacao {
+  flex-shrink: 0;
+  height: var(--altura-nav, 60px);
+  background: #ffffff;
+  border-top: 1px solid var(--borda, #E5E7EB);
+  z-index: 10;
+}
+
+.barra-navegacao-conteudo {
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
+}
+
+.aba-navegacao {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: none;
+  border: none;
+  padding: 4px 0 3px;
+  color: var(--texto-suave, #6B7280);
+  font-size: var(--tam-nav, 9px);
+  font-weight: 500;
+  position: relative;
+  cursor: pointer;
+  height: auto;
+  transition: color 0.15s ease;
+}
+
+.aba-navegacao-pilula {
+  width: 44px;
+  height: 26px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.aba-navegacao-pilula svg.icone {
+  width: 20px;
+  height: 20px;
+}
+
+.aba-navegacao.ativa {
+  color: var(--verde-principal, #258C4E);
+  font-weight: 600;
+}
+
+.aba-navegacao.ativa::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: var(--verde-principal, #258C4E);
+  border-radius: 0 0 2px 2px;
+}
+
+.aba-navegacao.ativa .aba-navegacao-pilula {
+  background: var(--verde-claro, #E6F4EA);
+  color: var(--verde-principal, #258C4E);
+}
+
+.aba-navegacao-rotulo {
+  font-size: var(--tam-nav, 9px);
+  line-height: 1;
+}
+
+/* Camada flutuante para modais */
+.camada-flutuante {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.camada-flutuante > * {
+  pointer-events: auto;
+}
+
+/* Toasts */
+.toasts {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.toasts > * {
+  pointer-events: auto;
+}
+
+/* Mobile: telas menores que 768px ocupam 100dvh direto sem moldura */
+@media (max-width: 767px) {
+  .palco {
+    padding: 0;
+    background: var(--fundo, #F7F8FA);
+  }
+
+  .aparelho {
+    width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+  }
+}

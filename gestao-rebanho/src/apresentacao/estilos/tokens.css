@@ -1,0 +1,71 @@
+/* ==========================================================================
+   Design Tokens (Lida)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Cores Principais */
+  --verde-escuro: #0F3D1F;
+  --verde-principal: #258C4E;
+  --verde-principal-hover: #1e7340;
+  --verde-claro: #E6F4EA;
+  --amarelo-sol: #E8A93A;
+
+  /* Superfícies e Linhas */
+  --fundo: #F7F8FA;
+  --fundo-auth: #FAFAFA;
+  --fundo-palco: #E9ECEF;
+  --cartao: #FFFFFF;
+  --borda: #E5E7EB;
+  --trilho: #EEF0F2;
+
+  /* Tipografia & Texto */
+  --texto: #1F2D26;
+  --texto-suave: #6B7280;
+  --placeholder: #9CA3AF;
+
+  /* Status e Alertas */
+  --perigo: #C94A4A;
+  --perigo-claro: #FBE9E9;
+  --alerta-claro: #FDF3DC;
+  --alerta-texto: #B7791F;
+
+  /* Ícones Tintados (fundos pastéis para caixas) */
+  --icone-azul: #EAF0F6;
+  --icone-azul-texto: #2D6A9F;
+  --icone-verde: #E6F4EA;
+  --icone-verde-texto: #258C4E;
+  --icone-creme: #FBF1DA;
+  --icone-creme-texto: #B7791F;
+  --icone-areia: #F6EBDD;
+  --icone-areia-texto: #8C5C25;
+  --icone-rosa: #FBE4E4;
+  --icone-rosa-texto: #C94A4A;
+
+  /* Tipografia */
+  --fonte: 'Inter', system-ui, -apple-system, sans-serif;
+  --tam-titulo-tela: 22px;
+  --tam-titulo-secao: 13px;
+  --tam-corpo: 12px;
+  --tam-rotulo: 11px;
+  --tam-legenda: 10px;
+  --tam-botao: 12px;
+  --tam-nav: 9px;
+
+  /* Raios de Arredondamento */
+  --raio-cartao: 12px;
+  --raio-input: 8px;
+  --raio-btn: 8px;
+  --raio-badge: 999px;
+  --raio-icone: 8px;
+  --raio-moldura: 36px;
+
+  /* Dimensões */
+  --altura-input: 44px;
+  --altura-btn: 44px;
+  --altura-cabecalho: 48px;
+  --altura-nav: 60px;
+  --aparelho-largura: 390px;
+  --aparelho-altura: 844px;
+}

@@ -1,13 +1,13 @@
 {
-  "name": "gestao-rebanho",
+  "name": "lida",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Sistema web de gestão de rebanho em TypeScript puro com Clean Architecture.",
+  "description": "Lida — protótipo acadêmico mobile-first de gestão de rebanho em TypeScript puro com Clean Architecture.",
   "scripts": {
-    "build": "tsc",
+    "build": "node scripts/limpar-publico.mjs && tsc && node scripts/copiar-estilos.mjs",
     "watch": "tsc --watch",
-    "start": "npx --yes serve ."
+    "start": "npx --yes serve publico"
   },
   "devDependencies": {
     "typescript": "^5.5.4"

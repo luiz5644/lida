@@ -1,12 +1,16 @@
-# Gestão de Rebanho
+# lida.
 
-Aplicativo web **mobile-first** de gestão de rebanho construído com **TypeScript puro**, **HTML** e **CSS**, sem frameworks, seguindo os princípios da **Clean Architecture**.
+Protótipo acadêmico **mobile-first** de gestão de rebanho, feito com **TypeScript puro**, HTML e CSS — sem frameworks — e organizado em **Clean Architecture**.
+
+O app simula um celular: em telas com 768 px ou mais ele aparece dentro de uma moldura de 390×844 px; abaixo disso ocupa a viewport inteira. Toda a navegação acontece em uma única página (`publico/index.html`) por rotas de hash.
+
+> **Registro demonstrativo.** Os dados ficam apenas nesta sessão do navegador (`sessionStorage`) e são descartados ao fechar a aba.
 
 ## Stack
 
-- TypeScript (strict) compilado para ES Modules e executado no navegador
-- HTML + CSS + JavaScript (sem framework)
-- Persistência em `localStorage`, isolada atrás de interfaces de repositório
+- TypeScript (strict) compilado para ES Modules
+- HTML + CSS + JavaScript, sem framework
+- Persistência em `sessionStorage`, atrás de interfaces de repositório
 - Build com `tsc`
 - Única dependência de desenvolvimento: `typescript`
 
@@ -18,82 +22,13 @@ As dependências apontam sempre para dentro:
 apresentacao -> aplicacao -> dominio <- infraestrutura
 ```
 
-- `src/dominio/`: entidades, enumerações, erros e interfaces de repositório. Não conhece DOM, `localStorage` nem nenhuma outra camada.
-- `src/aplicacao/casos-de-uso/`: uma classe por caso de uso, com o método `executar()`. Recebe as interfaces de repositório por construtor (injeção de dependência).
-- `src/infraestrutura/`: `ClienteLocalStorage` (wrapper genérico de JSON) e as implementações dos repositórios.
-- `src/apresentacao/`: MVC simples adaptado a uma SPA.
-  - `visoes/`: montam o DOM de cada tela dentro de um `ContextoTela` (`cabecalho`, `conteudo`, `flutuantes`).
-  - `controladores/`: ligam eventos da tela aos casos de uso.
-  - `componentes/`: aparelho, barra de navegação, cabeçalho, cards, bottom sheet, toast, FAB, campos segmentados, confirmação e utilitários de DOM.
-  - `utilitarios/`: formatadores de data, moeda, peso, unidades e status.
-  - `estilos/`: `global.css` (tokens e reset) e `app.css` (shell do aparelho e componentes).
-- `src/principal/conteiner.ts`: composition root. Instancia repositórios e casos de uso.
-- `src/principal/roteador.ts`: roteador por hash (`#/animais`, `#/pesagens`...).
-- `src/principal/index.ts`: ponto de entrada. Monta o shell do aparelho e renderiza a rota atual.
-- `publico/index.html`: única página da aplicação (SPA).
-
-## Interface mobile-first
-
-- Em telas com **768px ou mais**, a aplicação aparece dentro de um aparelho simulado de **390×844**, com moldura escura, cantos arredondados, sombra e ilha da câmera.
-- Em telas menores que **768px**, o app ocupa toda a viewport (`100dvh`), sem moldura.
-- Barra de status simulada (hora, sinal, Wi-Fi e bateria).
-- Cabeçalho de tela com título/subtítulo e botão de voltar quando aplicável.
-- Navegação inferior fixa: **Início, Animais, Pesagens, Manejos, Mais**.
-- Listas em cards; tocar em um card abre os detalhes em uma bottom sheet com **Editar** e **Excluir**.
-- O botão flutuante (**FAB**) abre o formulário de criação em bottom sheet de tela cheia.
-- Feedback por **toast**; nenhuma ação usa `alert()`.
-- Alvos de toque com pelo menos 44×44px e campos com fonte mínima de 16px (evita zoom automático no iOS).
-
-## Rotas
-
-| Rota | Tela |
+| Camada | Conteúdo |
 | --- | --- |
-| `#/inicio` | Painel com resumo do rebanho e atalhos |
-| `#/animais` | Lista de animais |
-| `#/pesagens` | Lista de pesagens |
-| `#/manejos` | Lista de manejos |
-| `#/mais` | Menu com Propriedades, Alimentação e Carência |
-| `#/propriedades` | Lista de propriedades |
-| `#/alimentacao` | Alimentos e registros alimentares (abas) |
-| `#/carencia` | Produtos sanitários e controles de carência (abas) |
-
-A navegação não recarrega a página: o roteador por hash troca a tela, atualiza o título e o estado ativo da barra inferior.
-
-## Regras de negócio
-
-- `dataLiberacao = dataAplicacao + carenciaDias`; o status do controle de carência é calculado automaticamente (`EM_CARENCIA` ou `LIBERADO`).
-- Não é permitido registrar pesagem com peso menor ou igual a zero.
-- Não é permitido remover uma propriedade que possua animais.
-- O brinco é único por propriedade.
-- Quantidade de alimento registrada deve ser maior que zero.
-- Área da propriedade deve ser maior que zero.
-- Custo unitário e dias de carência não podem ser negativos.
-- Datas de nascimento não podem estar no futuro.
-- Validações ficam nas entidades e nos casos de uso, nunca nas views.
-- Erros de domínio são exceções tipadas (`ErroDeDominio`) e são exibidos ao usuário pelos controladores em formato de toast.
-
-## Como compilar e executar
-
-```bash
-# instalar dependências
-npm install
-
-# compilar TypeScript para a pasta dist/
-npm run build
-
-# servir o projeto a partir da raiz (obrigatório por causa dos ES Modules)
-npm start
-```
-
-`npm start` usa `npx serve .`. Abra o endereço exibido (normalmente `http://localhost:3000`) e acesse `publico/index.html`.
-
-Para desenvolvimento com recompilação automática:
-
-```bash
-npm run watch
-```
-
-> Observação: abrir o HTML diretamente via `file://` não funciona, pois os módulos ES precisam de um servidor HTTP.
+| `src/dominio` | Entidades, enumerações, erros, utilitários de data, constantes, interfaces de repositório e de serviços. Não conhece DOM nem armazenamento. |
+| `src/aplicacao` | Casos de uso (uma classe por ação, com `executar()`) e DTOs. Recebem interfaces por construtor. |
+| `src/infraestrutura` | `ClienteArmazenamentoSessao`, repositórios `...Sessao`, serviços simulados de código de acesso e localidades, e o seed demonstrativo. |
+| `src/apresentacao` | Componentes, estilos, visões, controladores e utilitários de formatação. Usa `ContextoTela` e não importa nada de `principal`. |
+| `src/principal` | `conteiner.ts` (composition root), `roteador.ts` (hash router) e `index.ts` (bootstrap, guardas de sessão e montagem do aparelho). |
 
 ## Estrutura
 
@@ -102,57 +37,154 @@ gestao-rebanho/
 ├── package.json
 ├── tsconfig.json
 ├── README.md
+├── scripts/
+│   ├── limpar-publico.mjs      # limpa saídas geradas em publico/
+│   └── copiar-estilos.mjs      # copia src/apresentacao/estilos -> publico/estilos
 ├── publico/
-│   └── index.html              # SPA
+│   ├── index.html              # SPA
+│   ├── assets/                 # sprite de ícones, logos e fundo de boas-vindas
+│   ├── dados/localidades.json  # UFs e municípios
+│   ├── estilos/                # gerado pelo build
+│   └── js/                     # gerado pelo build
 └── src/
     ├── dominio/
     │   ├── entidades/
     │   ├── enumeracoes/
     │   ├── erros/
-    │   └── repositorios/
+    │   ├── repositorios/
+    │   ├── servicos/
+    │   ├── utilitarios/
+    │   └── constantes.ts
     ├── aplicacao/
-    │   └── casos-de-uso/
+    │   ├── casos-de-uso/
+    │   └── dtos/
     ├── infraestrutura/
     │   ├── armazenamento/
-    │   └── repositorios/
+    │   ├── repositorios/
+    │   ├── servicos/
+    │   └── seed/
     ├── apresentacao/
     │   ├── componentes/
     │   ├── controladores/
     │   ├── estilos/
-    │   │   ├── global.css
-    │   │   └── app.css
     │   ├── utilitarios/
-    │   └── visoes/
+    │   ├── visoes/
+    │   └── contexto.ts
     └── principal/
         ├── conteiner.ts
         ├── index.ts
         └── roteador.ts
 ```
 
-## Limpar os dados
+## Rotas
 
-Tudo fica no `localStorage` do navegador, sob o prefixo `gestao-rebanho:`.
-Para reiniciar do zero, abra o DevTools (F12) → Console e execute:
+Rotas de autenticação não exibem cabeçalho nem navegação inferior.
 
-```javascript
-Object.keys(localStorage)
-  .filter((chave) => chave.startsWith("gestao-rebanho:"))
-  .forEach((chave) => localStorage.removeItem(chave));
+| Rota | Tela |
+| --- | --- |
+| `#/boas-vindas` | Apresentação do app |
+| `#/entrar` | Telefone para receber o código |
+| `#/confirmar-codigo` | Código de 6 dígitos |
+| `#/criar-conta` | Cadastro de produtor |
+| `#/onboarding` | Propriedade e primeiro rebanho (3 etapas) |
+| `#/inicio` | Saudação, atalhos e últimos 5 registros |
+| `#/rebanho` | Animais e lotes |
+| `#/rebanho/animal/:id` | Detalhe, histórico e evolução de peso |
+| `#/rebanho/animal/novo` | Novo animal |
+| `#/rebanho/animal/editar/:id` | Editar animal |
+| `#/rebanho/lote/:id` | Detalhe do lote |
+| `#/rebanho/lote/novo` | Novo lote |
+| `#/rebanho/lote/editar/:id` | Editar lote |
+| `#/manejos` | Atalhos de manejo |
+| `#/manejos/pesagem` | Registrar pesagem |
+| `#/manejos/vacinacao` | Vacinação por animal ou lote |
+| `#/manejos/medicamento` | Medicamento com carência |
+| `#/manejos/produto-sanitario` | Cadastrar produto sanitário |
+| `#/manejos/reproducao` | Registrar reprodução |
+| `#/manejos/nascimento` | Registrar nascimento |
+| `#/manejos/morte` | Registrar morte (com confirmação) |
+| `#/alimentacao` | Alimentos, estoque e consumo |
+| `#/alimentacao/novo` | Cadastrar alimento |
+| `#/alimentacao/editar/:id` | Editar alimento |
+| `#/prazos` | Carências e reforços com filtros |
+
+Rotas internas exigem sessão ativa e propriedade cadastrada; sem isso o app redireciona para `#/boas-vindas` ou `#/onboarding`.
+
+## Regras de negócio
+
+- Carência: `dataLiberacao = dataAplicacao + carenciaDias`; status calculado a partir da data atual (`EM_ANDAMENTO`, `VENCIDO`, `LIBERADO`).
+- Vacinação agenda reforço para **+30 dias**.
+- Vacinação por lote cria **um manejo por animal ativo** e falha se o lote não tiver animais ativos.
+- Medicamento cria o manejo e o controle de carência do produto escolhido.
+- Morte cria o manejo e marca o animal como `MORTO`; animais mortos saem dos seletores e dos novos registros.
+- Consumo de alimento deve ser maior que zero e menor ou igual ao estoque disponível.
+- Peso deve ser maior que zero; nenhuma data pode estar no futuro.
+- Identificação de animal é única por propriedade.
+- Não é possível excluir propriedade ou lote que possuam animais.
+- Validações ficam no domínio e nos casos de uso; os controladores apenas exibem o erro em toast ou no formulário.
+
+## Dados de demonstração
+
+Na primeira carga da sessão, o seed cria:
+
+- usuária **Maria** — telefone `(88) 99999-0001`;
+- propriedade **Fazenda Boa Vista** (Quixadá/CE);
+- animais **Bovino 001–008** nos lotes 01 Engorda, 02 Reprodução e 03 Recria;
+- histórico de peso do Bovino 001 (363 kg → 382 kg);
+- alimentos Ração (480 kg), Silagem (1.250 kg) e Sal (85 kg);
+- produtos Ivermectina 1% (28 dias), Oxitetraciclina (21 dias) e Vacina contra clostridioses (0 dia);
+- carências e reforços em datas relativas, para que Prazos mostre os três status.
+
+Datas do seed são calculadas a partir do dia atual, então os prazos continuam coerentes em qualquer execução.
+
+**Entrar com a conta demo:** telefone `(88) 99999-0001` e qualquer código de 6 dígitos. Um telefone novo cria um produtor e leva ao onboarding.
+
+## Como compilar e executar
+
+```bash
+npm install
+npm run build
+npx serve publico
 ```
 
-Depois recarregue a página: o usuário padrão será criado novamente.
+Abra o endereço exibido (normalmente `http://localhost:3000`). Não abra o HTML por `file://`: os módulos ES precisam de um servidor HTTP.
 
-## Fluxo de teste manual
+`npm run build` limpa `publico/js` e `publico/estilos`, compila o TypeScript direto para `publico/js` e copia os CSS de `src/apresentacao/estilos` para `publico/estilos`. Assim a pasta `publico/` já fica pronta para ser servida.
 
-1. Rode `npm install`, `npm run build` e `npm start`.
-2. Abra `publico/index.html`. Um usuário padrão (`Administrador`) é criado automaticamente no primeiro acesso.
-3. Confira a moldura do aparelho em uma janela larga e a tela cheia ao estreitar para menos de 768px.
-4. **Mais → Propriedades**: crie uma propriedade (nome, localização, área e usuário responsável). Tocar no card deve abrir os detalhes.
-5. **Animais**: crie um animal vinculado à propriedade. Tente repetir o mesmo brinco na mesma propriedade e confirme que o sistema bloqueia.
-6. **Pesagens**: registre uma pesagem para o animal. Tente peso `0` e confirme o toast de erro.
-7. **Manejos**: registre um manejo (vacinação, vermifugação, etc.).
-8. **Mais → Alimentação**: cadastre um alimento e depois um registro alimentar vinculando animal + alimento.
-9. **Mais → Carência**: cadastre um produto sanitário com dias de carência e aplique no animal. Confira a data de liberação calculada e o status (`EM_CARENCIA`/`LIBERADO`).
-10. Tente excluir a propriedade que possui animais: o sistema deve impedir.
-11. Recarregue a página: os dados permanecem salvos no `localStorage` e a rota atual é restaurada pelo hash.
-12. Teste a busca de cada tela, a troca de abas em Alimentação/Carência e a navegação inferior.
+Para recompilar durante o desenvolvimento:
+
+```bash
+npm run watch
+```
+
+`npm start` é um atalho para `npx serve publico`.
+
+## Roteiro de teste manual
+
+1. `npm install`, `npm run build`, `npx serve publico` e abra o endereço no navegador.
+2. Em janela larga, confirme a moldura de celular centralizada (390×844). Estreite para menos de 768 px e confirme tela cheia sem moldura.
+3. **Boas-vindas → Entrar**: informe `(88) 99999-0001`, toque em continuar e use qualquer código de 6 dígitos. Você deve cair em **Início**.
+4. Confira em Início: saudação com o nome, data atual por extenso e 5 registros recentes cobrindo pesagem, alimentação e vacinação.
+5. **Criar conta** (em outra aba ou após sair): preencha nome, telefone novo e aceite os termos. Deve abrir o **onboarding**.
+6. Onboarding: crie a propriedade escolhendo estado e município (ex.: CE / Quixadá), cadastre um animal e conclua. O app abre Início com o nome do novo produtor.
+7. **Rebanho**: busque "Bovino 001" e confirme o filtro; abra o detalhe e confira o gráfico de evolução do peso. Edite o animal e veja que a propriedade fica desabilitada.
+8. **Pesagem**: registre um peso maior que zero. O app abre o detalhe do animal com o novo peso no gráfico.
+9. **Vacinação**: escolha o modo **Lote**, selecione o Lote 01 e confirme o toast "Vacinação registrada para 3 animais".
+10. **Medicamento**: escolha animal e produto com carência e confirme o toast com a data de liberação calculada.
+11. **Produto sanitário**: cadastre um produto com carência 0 e confirme que a carência libera no mesmo dia ao aplicá-lo.
+12. **Reprodução**, **Nascimento** e **Morte**: registre cada um. Em Morte deve aparecer a confirmação; depois o animal fica com status **Morto** e some dos seletores.
+13. **Alimentação**: registre o consumo de 10 kg de ração e confirme o estoque caindo de 480 kg para 470 kg. Tente consumir mais que o estoque e confirme o erro.
+14. **Prazos**: confira a lista com carências e reforços; use os filtros Todos, Em andamento, Vencidos e Liberados.
+15. **Navegação inferior**: alterne entre Início, Rebanho, Manejos e Prazos e confirme a aba ativa (pílula verde e linha superior).
+16. Recarregue a página: a sessão e os dados permanecem. Feche a aba e abra de novo: a sessão é descartada (comportamento esperado do `sessionStorage`).
+
+## Limpar os dados
+
+Os dados vivem no `sessionStorage` sob o prefixo `lida:`. Para reiniciar a demonstração, feche a aba ou execute no console:
+
+```javascript
+Object.keys(sessionStorage)
+  .filter((chave) => chave.startsWith("lida:"))
+  .forEach((chave) => sessionStorage.removeItem(chave));
+location.reload();
+```

@@ -1,5 +1,11 @@
 node_modules/
 dist/
+
+# Saídas geradas pelo build (npm run build)
+publico/js/
+publico/estilos/
+
+# Sistema e editores
 .DS_Store
 Thumbs.db
 *.log

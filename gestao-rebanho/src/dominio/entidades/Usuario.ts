@@ -3,52 +3,76 @@ import { ErroDeDominio } from "../erros/ErroDeDominio.js";
 export interface UsuarioProps {
   id: string;
   nome: string;
-  email: string;
-  senha: string;
+  telefone: string;
+  email?: string;
+  aceitouTermos: boolean;
 }
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function normalizarTelefone(telefone: string): string {
+  return telefone.replace(/\D/g, "");
+}
+
+function normalizarEmail(email?: string): string | undefined {
+  const limpo = email?.trim().toLowerCase();
+  return limpo ? limpo : undefined;
+}
 
 export class Usuario {
   readonly id: string;
   nome: string;
-  email: string;
-  senha: string;
+  telefone: string;
+  email?: string;
+  aceitouTermos: boolean;
 
   constructor(props: UsuarioProps) {
     if (!props.nome || props.nome.trim().length === 0) {
       throw new ErroDeDominio("O nome do usuário é obrigatório.");
     }
-    if (!props.email || !EMAIL_REGEX.test(props.email)) {
+    const telefone = normalizarTelefone(props.telefone);
+    if (telefone.length < 10 || telefone.length > 11) {
+      throw new ErroDeDominio("Informe um telefone válido com DDD.");
+    }
+    const email = normalizarEmail(props.email);
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       throw new ErroDeDominio("Informe um e-mail válido.");
     }
-    if (!props.senha || props.senha.length < 4) {
-      throw new ErroDeDominio("A senha deve ter pelo menos 4 caracteres.");
+    if (props.aceitouTermos !== true) {
+      throw new ErroDeDominio(
+        "É necessário aceitar os termos de uso e privacidade.",
+      );
     }
+
     this.id = props.id;
     this.nome = props.nome.trim();
-    this.email = props.email.trim().toLowerCase();
-    this.senha = props.senha;
+    this.telefone = telefone;
+    this.email = email;
+    this.aceitouTermos = true;
   }
 
-  atualizar(dados: { nome?: string; email?: string; senha?: string }): void {
+  atualizar(dados: {
+    nome?: string;
+    telefone?: string;
+    email?: string | null;
+  }): void {
     if (dados.nome !== undefined) {
-      if (dados.nome.trim().length === 0) {
+      if (!dados.nome.trim()) {
         throw new ErroDeDominio("O nome do usuário é obrigatório.");
       }
       this.nome = dados.nome.trim();
     }
+    if (dados.telefone !== undefined) {
+      const telefone = normalizarTelefone(dados.telefone);
+      if (telefone.length < 10 || telefone.length > 11) {
+        throw new ErroDeDominio("Informe um telefone válido com DDD.");
+      }
+      this.telefone = telefone;
+    }
     if (dados.email !== undefined) {
-      if (!EMAIL_REGEX.test(dados.email)) {
+      const email = normalizarEmail(dados.email ?? undefined);
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         throw new ErroDeDominio("Informe um e-mail válido.");
       }
-      this.email = dados.email.trim().toLowerCase();
-    }
-    if (dados.senha !== undefined) {
-      if (dados.senha.length < 4) {
-        throw new ErroDeDominio("A senha deve ter pelo menos 4 caracteres.");
-      }
-      this.senha = dados.senha;
+      this.email = email;
     }
   }
 
@@ -56,12 +80,13 @@ export class Usuario {
     return {
       id: this.id,
       nome: this.nome,
+      telefone: this.telefone,
       email: this.email,
-      senha: this.senha,
+      aceitouTermos: this.aceitouTermos,
     };
   }
 
-  static deJSON(json: UsuarioProps): Usuario {
-    return new Usuario(json);
+  static deJSON(props: UsuarioProps): Usuario {
+    return new Usuario(props);
   }
 }

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="64" viewBox="0 0 240 64" role="img" aria-labelledby="titulo-logo">
+  <title id="titulo-logo">lida.</title>
+  <rect x="2" y="9" width="46" height="46" rx="14" fill="#258C4E" />
+  <path
+    d="M25 45c-6.6 0-11-4.2-11-10.3 0-6.4 4.8-11.2 11.4-11.2 5.5 0 9.6 3 10.6 7.6-6.1 1-10.2 5-11 13.9Z"
+    fill="#E8A93A"
+  />
+  <path
+    d="M25 45c3.2-5.6 7.2-9 13.9-10.6-.8 6.3-5.1 10.6-13.9 10.6Z"
+    fill="#E6F4EA"
+  />
+  <text
+    x="60"
+    y="45"
+    fill="#0F3D1F"
+    font-family="Inter, 'Segoe UI', Arial, sans-serif"
+    font-size="38"
+    font-weight="800"
+    letter-spacing="-2.2"
+  >lida.</text>
+</svg>

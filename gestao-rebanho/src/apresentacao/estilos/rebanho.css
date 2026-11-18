@@ -1,0 +1,296 @@
+/* ==========================================================================
+   Tela de Rebanho (Lida - Figma Fidelity)
+   ========================================================================== */
+
+.rebanho-topo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rebanho-busca-container {
+  position: relative;
+  width: 100%;
+}
+
+.rebanho-busca-input {
+  padding-left: 36px !important;
+}
+
+.rebanho-busca-icone {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--placeholder, #9CA3AF);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.rebanho-busca-icone svg.icone {
+  width: 16px;
+  height: 16px;
+}
+
+.rebanho-contagem {
+  font-size: var(--tam-legenda, 10px);
+  color: var(--texto-suave, #6B7280);
+  margin-top: -6px;
+}
+
+/* Grid de Cards (Animais & Lotes) */
+.grade-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+}
+
+/* Card de Animal */
+.card-animal {
+  background: var(--cartao, #FFFFFF);
+  border: 1px solid var(--borda, #E5E7EB);
+  border-radius: var(--raio-cartao, 12px);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, transform 0.1s ease;
+}
+
+.card-animal:hover,
+.card-lote:hover {
+  border-color: var(--verde-principal, #258C4E);
+}
+
+.card-animal:active,
+.card-lote:active {
+  transform: scale(0.98);
+}
+
+.card-animal-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 2px;
+}
+
+.card-animal-nome {
+  font-size: var(--tam-corpo, 12px);
+  font-weight: 600;
+  color: var(--texto, #1F2D26);
+  line-height: 1.25;
+}
+
+.card-animal-raca {
+  font-size: var(--tam-legenda, 10px);
+  color: var(--texto-suave, #6B7280);
+}
+
+.card-animal-divisor {
+  height: 1px;
+  background: var(--borda, #E5E7EB);
+  margin: 4px 0 2px;
+}
+
+.card-animal-rodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--tam-legenda, 10px);
+  color: var(--texto-suave, #6B7280);
+}
+
+.card-animal-lote-info {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.card-animal-lote-info svg.icone {
+  width: 12px;
+  height: 12px;
+}
+
+.card-animal-chevron {
+  color: var(--placeholder, #9CA3AF);
+  font-size: 11px;
+}
+
+/* Card de Lote */
+.card-lote {
+  background: var(--cartao, #FFFFFF);
+  border: 1px solid var(--borda, #E5E7EB);
+  border-radius: var(--raio-cartao, 12px);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, transform 0.1s ease;
+}
+
+.card-lote-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.card-lote-nome {
+  font-size: var(--tam-corpo, 12px);
+  font-weight: 600;
+  color: var(--texto, #1F2D26);
+  line-height: 1.25;
+}
+
+.card-lote-contagem {
+  font-size: var(--tam-legenda, 10px);
+  color: var(--texto-suave, #6B7280);
+}
+
+.card-lote-divisor {
+  height: 1px;
+  background: var(--borda, #E5E7EB);
+  margin: 4px 0 2px;
+}
+
+.card-lote-rodape {
+  font-size: var(--tam-legenda, 10px);
+  color: var(--texto-suave, #6B7280);
+}
+
+/* Detalhe do Animal */
+.detalhe-topo-linha {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.detalhe-cartao-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.detalhe-cartao-titulo-grupo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--tam-corpo, 12px);
+  font-weight: 600;
+  color: var(--texto, #1F2D26);
+}
+
+.detalhe-cartao-titulo-grupo svg.icone {
+  width: 16px;
+  height: 16px;
+  color: var(--verde-principal, #258C4E);
+}
+
+.info-grade {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.info-item small {
+  font-size: 9px;
+  color: var(--texto-suave, #6B7280);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.info-item strong {
+  font-size: var(--tam-rotulo, 11px);
+  font-weight: 600;
+  color: var(--texto, #1F2D26);
+}
+
+/* Evolução do Peso */
+.metricas-grade {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.metrica-caixa {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.metrica-rotulo {
+  font-size: 9px;
+  color: var(--texto-suave, #6B7280);
+}
+
+.metrica-valor-grupo {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.metrica-valor {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--texto, #1F2D26);
+  line-height: 1.1;
+}
+
+.metrica-unidade {
+  font-size: var(--tam-legenda, 10px);
+  color: var(--texto-suave, #6B7280);
+}
+
+.variacao-positiva {
+  color: var(--verde-principal, #258C4E) !important;
+}
+
+.variacao-negativa {
+  color: var(--perigo, #C94A4A) !important;
+}
+
+.grafico-wrapper {
+  width: 100%;
+  height: 140px;
+  margin: 6px 0 10px;
+}
+
+.link-historico-pesagens {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--tam-rotulo, 11px);
+  color: var(--texto-suave, #6B7280);
+  text-decoration: none;
+  padding-top: 10px;
+  border-top: 1px solid var(--borda, #E5E7EB);
+}
+
+.link-historico-pesagens:hover {
+  color: var(--verde-principal, #258C4E);
+}
+
+/* Detalhe do Lote */
+.lote-secao-animais-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

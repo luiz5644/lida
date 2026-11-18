@@ -1,5 +1,10 @@
 import { ErroDeDominio } from "../erros/ErroDeDominio.js";
-import { StatusCarencia } from "../enumeracoes/StatusCarencia.js";
+import { StatusPrazo } from "../enumeracoes/StatusPrazo.js";
+import {
+  adicionarDias,
+  ehDataIsoValida,
+  hojeIso,
+} from "../utilitarios/datas.js";
 
 export interface ControleCarenciaProps {
   id: string;
@@ -7,118 +12,74 @@ export interface ControleCarenciaProps {
   produtoSanitarioId: string;
   dataAplicacao: string;
   dataLiberacao: string;
-}
-
-export interface ControleCarenciaJSON extends ControleCarenciaProps {
-  status: StatusCarencia;
+  observacao?: string;
 }
 
 export class ControleCarencia {
   readonly id: string;
-  animalId: string;
-  produtoSanitarioId: string;
+  readonly animalId: string;
+  readonly produtoSanitarioId: string;
   dataAplicacao: string;
   dataLiberacao: string;
-  status: StatusCarencia;
+  observacao?: string;
 
   constructor(props: ControleCarenciaProps) {
     if (!props.animalId) {
-      throw new ErroDeDominio("O animal é obrigatório.");
+      throw new ErroDeDominio("Selecione um animal para o controle de carência.");
     }
     if (!props.produtoSanitarioId) {
-      throw new ErroDeDominio("O produto sanitário é obrigatório.");
+      throw new ErroDeDominio("Selecione o produto sanitário aplicado.");
     }
-    ControleCarencia.validarData(props.dataAplicacao, "Data de aplicação");
-    ControleCarencia.validarData(props.dataLiberacao, "Data de liberação");
+    if (!ehDataIsoValida(props.dataAplicacao)) {
+      throw new ErroDeDominio("Data de aplicação inválida.");
+    }
+    if (!ehDataIsoValida(props.dataLiberacao)) {
+      throw new ErroDeDominio("Data de liberação inválida.");
+    }
+    if (props.dataLiberacao < props.dataAplicacao) {
+      throw new ErroDeDominio(
+        "A data de liberação não pode ser anterior à aplicação.",
+      );
+    }
     this.id = props.id;
     this.animalId = props.animalId;
     this.produtoSanitarioId = props.produtoSanitarioId;
     this.dataAplicacao = props.dataAplicacao;
     this.dataLiberacao = props.dataLiberacao;
-    this.status = ControleCarencia.calcularStatus(props.dataLiberacao);
+    this.observacao = props.observacao?.trim() || undefined;
   }
 
-  private static validarData(data: string, rotulo: string): void {
-    if (!data) {
-      throw new ErroDeDominio(`${rotulo} é obrigatória.`);
-    }
-    const valor = new Date(`${data}T00:00:00`);
-    if (Number.isNaN(valor.getTime())) {
-      throw new ErroDeDominio(`${rotulo} inválida.`);
-    }
-  }
-
-  static calcularDataLiberacao(dataAplicacao: string, carenciaDias: number): string {
-    const data = new Date(`${dataAplicacao}T00:00:00`);
-    if (Number.isNaN(data.getTime())) {
+  static calcularDataLiberacao(
+    dataAplicacao: string,
+    carenciaDias: number,
+  ): string {
+    if (!ehDataIsoValida(dataAplicacao)) {
       throw new ErroDeDominio("Data de aplicação inválida.");
     }
     if (!Number.isInteger(carenciaDias) || carenciaDias < 0) {
-      throw new ErroDeDominio("Os dias de carência devem ser um número inteiro maior ou igual a zero.");
+      throw new ErroDeDominio("Dias de carência inválidos.");
     }
-    data.setDate(data.getDate() + carenciaDias);
-    const ano = data.getFullYear();
-    const mes = String(data.getMonth() + 1).padStart(2, "0");
-    const dia = String(data.getDate()).padStart(2, "0");
-    return `${ano}-${mes}-${dia}`;
+    return adicionarDias(dataAplicacao, carenciaDias);
   }
 
-  static calcularStatus(dataLiberacao: string): StatusCarencia {
-    const liberacao = new Date(`${dataLiberacao}T00:00:00`);
-    if (Number.isNaN(liberacao.getTime())) {
-      throw new ErroDeDominio("Data de liberação inválida.");
-    }
-    const hoje = new Date();
-    hoje.setHours(0, 0, 0, 0);
-    return liberacao.getTime() > hoje.getTime()
-      ? StatusCarencia.EM_CARENCIA
-      : StatusCarencia.LIBERADO;
+  status(hoje: string = hojeIso()): StatusPrazo {
+    return hoje < this.dataLiberacao
+      ? StatusPrazo.EM_ANDAMENTO
+      : StatusPrazo.LIBERADO;
   }
 
-  atualizarStatus(): void {
-    this.status = ControleCarencia.calcularStatus(this.dataLiberacao);
-  }
-
-  atualizar(dados: {
-    produtoSanitarioId?: string;
-    dataAplicacao?: string;
-    dataLiberacao?: string;
-  }): void {
-    if (dados.produtoSanitarioId !== undefined) {
-      if (!dados.produtoSanitarioId) {
-        throw new ErroDeDominio("O produto sanitário é obrigatório.");
-      }
-      this.produtoSanitarioId = dados.produtoSanitarioId;
-    }
-    if (dados.dataAplicacao !== undefined) {
-      ControleCarencia.validarData(dados.dataAplicacao, "Data de aplicação");
-      this.dataAplicacao = dados.dataAplicacao;
-    }
-    if (dados.dataLiberacao !== undefined) {
-      ControleCarencia.validarData(dados.dataLiberacao, "Data de liberação");
-      this.dataLiberacao = dados.dataLiberacao;
-    }
-    this.atualizarStatus();
-  }
-
-  paraJSON(): ControleCarenciaJSON {
+  paraJSON(): ControleCarenciaProps {
     return {
       id: this.id,
       animalId: this.animalId,
       produtoSanitarioId: this.produtoSanitarioId,
       dataAplicacao: this.dataAplicacao,
       dataLiberacao: this.dataLiberacao,
-      status: this.status,
+      observacao: this.observacao,
     };
   }
 
-  static deJSON(json: ControleCarenciaJSON): ControleCarencia {
-    return new ControleCarencia({
-      id: json.id,
-      animalId: json.animalId,
-      produtoSanitarioId: json.produtoSanitarioId,
-      dataAplicacao: json.dataAplicacao,
-      dataLiberacao: json.dataLiberacao,
-    });
+  static deJSON(props: ControleCarenciaProps): ControleCarencia {
+    return new ControleCarencia(props);
   }
 }

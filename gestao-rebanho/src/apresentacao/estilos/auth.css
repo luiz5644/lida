@@ -1,0 +1,384 @@
+/* ==========================================================================
+   Telas de Autenticação (Lida - Figma Fidelity)
+   ========================================================================== */
+
+.pagina-auth,
+.auth {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--fundo-auth, #FAFAFA);
+  padding: 24px 20px;
+  box-sizing: border-box;
+  flex: 1;
+}
+
+/* 1. Tela de Boas-vindas */
+.boas-vindas,
+.auth--boas-vindas {
+  position: relative;
+  min-height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px 20px 24px;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: var(--verde-escuro, #0F3D1F);
+}
+
+.boas-vindas-fundo {
+  position: absolute;
+  inset: 0;
+  background-image: url('assets/fundo-boas-vindas.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+.boas-vindas-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 61, 31, 0.72);
+  z-index: 2;
+}
+
+.boas-vindas-conteudo {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  flex: 1;
+}
+
+.boas-vindas-topo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.boas-vindas-logo {
+  width: 180px;
+  height: auto;
+  margin-bottom: 4px;
+}
+
+.boas-vindas-lema {
+  font-size: 9px;
+  color: #ffffff;
+  opacity: 0.92;
+  text-align: right;
+  width: 180px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.boas-vindas-rodape {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.btn-boas-vindas-entrar {
+  background: #ffffff;
+  color: var(--verde-escuro, #0F3D1F);
+  height: var(--altura-btn, 44px);
+  border-radius: var(--raio-btn, 8px);
+  font-size: var(--tam-botao, 12px);
+  font-weight: 600;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.btn-boas-vindas-entrar:hover {
+  background: #f0f0f0;
+}
+
+.btn-boas-vindas-criar {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  height: var(--altura-btn, 44px);
+  border-radius: var(--raio-btn, 8px);
+  font-size: var(--tam-botao, 12px);
+  font-weight: 500;
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-boas-vindas-criar:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.btn-boas-vindas-criar span {
+  color: var(--amarelo-sol, #E8A93A);
+  font-weight: 600;
+}
+
+.boas-vindas-ajuda {
+  font-size: var(--tam-legenda, 10px);
+  color: #ffffff;
+  text-align: center;
+  margin-top: 4px;
+  opacity: 0.85;
+}
+
+.boas-vindas-ajuda a {
+  font-weight: 600;
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* 2. Telas Internas de Auth (Entrar, Confirmar Código, Criar Conta) */
+.auth-simples {
+  position: relative;
+}
+
+.auth-topo,
+.auth-simples-topo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 8px;
+  margin-bottom: 24px;
+  gap: 16px;
+}
+
+.auth-logo,
+.auth-simples-logo {
+  width: 130px;
+  height: auto;
+}
+
+.auth-titulo {
+  font-size: var(--tam-titulo-tela, 22px);
+  font-weight: 700;
+  color: var(--texto, #1F2D26);
+  text-align: left;
+  margin-bottom: 4px;
+  line-height: 1.25;
+}
+
+.auth-subtitulo,
+.auth-descricao {
+  font-size: var(--tam-corpo, 12px);
+  color: var(--texto-suave, #6B7280);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.auth-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.btn-auth {
+  background: var(--verde-escuro, #0F3D1F);
+  color: #ffffff;
+  height: var(--altura-btn, 44px);
+  border-radius: var(--raio-btn, 8px);
+  font-size: var(--tam-botao, 12px);
+  font-weight: 600;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-auth:hover {
+  background: #082613;
+}
+
+.auth-rodape,
+.auth-rodape-ajuda {
+  margin-top: auto;
+  text-align: center;
+  font-size: var(--tam-legenda, 10px);
+  color: var(--texto-suave, #6B7280);
+  padding: 16px 0 0;
+}
+
+.auth-rodape a,
+.auth-rodape-ajuda a {
+  font-weight: 600;
+  color: var(--texto, #1F2D26);
+  text-decoration: underline;
+}
+
+.auth-rodape-form {
+  margin-top: auto;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+
+.auth-codigo-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--azul-acinzentado, #EAF0F6);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: var(--tam-rotulo, 11px);
+  color: var(--texto, #1F2D26);
+  margin-bottom: 12px;
+}
+
+.auth-codigo-info svg.icone {
+  width: 16px;
+  height: 16px;
+  color: var(--verde-principal, #258C4E);
+  flex-shrink: 0;
+}
+
+/* Confirmar Código (6 Caixas de 40x44px) */
+.campo-codigo,
+.caixas-codigo {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 12px 0 20px;
+}
+
+.codigo-digito,
+.input-codigo {
+  width: 40px;
+  height: 44px;
+  border-radius: var(--raio-input, 8px);
+  border: 1px solid var(--borda, #E5E7EB);
+  background: #ffffff;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--texto, #1F2D26);
+  outline: none;
+  padding: 0;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.codigo-digito:focus,
+.input-codigo:focus {
+  border-color: var(--verde-principal, #258C4E);
+  box-shadow: 0 0 0 3px var(--verde-claro, #E6F4EA);
+}
+
+.auth-codigo-acoes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-reenviar,
+.reenviar-codigo {
+  text-align: center;
+  font-size: var(--tam-rotulo, 11px);
+  color: var(--texto-suave, #6B7280);
+}
+
+.auth-reenviar button,
+.reenviar-codigo a,
+.reenviar-codigo button {
+  color: var(--texto, #1F2D26);
+  font-weight: 600;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: inherit;
+  padding: 0;
+}
+
+/* Criar Conta (Checkbox de Termos) */
+.campo-termos {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 4px 0 12px;
+}
+
+.campo-termos input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  margin-top: 1px;
+  accent-color: var(--verde-principal, #258C4E);
+  cursor: pointer;
+}
+
+.campo-termos label {
+  font-size: var(--tam-rotulo, 11px);
+  color: var(--texto, #1F2D26);
+  line-height: 1.35;
+}
+
+.campo-termos a {
+  text-decoration: underline;
+  color: var(--texto, #1F2D26);
+}
+
+/* Stepper e Onboarding */
+.stepper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.stepper-barras,
+.stepper-progresso {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+}
+
+.stepper-barra,
+.stepper-segmento {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: #D1D5DB;
+  transition: background 0.2s ease;
+}
+
+.stepper-barra--ativa,
+.stepper-segmento.ativo {
+  background: var(--verde-principal, #258C4E);
+}
+
+.stepper-rotulo {
+  font-size: var(--tam-legenda, 10px);
+  color: var(--texto-suave, #6B7280);
+  text-align: center;
+}
+
+.auth-stepper-topo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
