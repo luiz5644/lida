@@ -1,0 +1,15 @@
+{
+  "name": "gestao-rebanho",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Sistema web de gestão de rebanho em TypeScript puro com Clean Architecture.",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "start": "npx --yes serve ."
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
+}
